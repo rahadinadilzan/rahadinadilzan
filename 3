@@ -1,0 +1,78 @@
+import telebot
+import time
+import threading
+from datetime import datetime
+
+token = "8766616174:AAHi7NVGNyhWSlySWyDW8xaC4XNR0goTdII"
+
+bot = telebot.TeleBot(token)
+
+water_data={}
+water_goal=2000
+
+def reminder(chat_id,hours):
+    while True:
+        time.sleep(hours*3600)
+        bot.send_message(chat_id,'Время пить воду!')
+
+@bot.message_handler(commands=["start"])
+def start(message):
+    bot.send_message(
+        message.chat.id,
+        "Введите /setreminder и интервал между напоминаниями о питье воды, и /drunk с количеством выпитой воды в мл для того чтобы считать выпитой воды в день, также /status для просмотра количества выпитой воды и сколько еще до дневной нормы."
+    )
+
+@bot.message_handler(commands=["setreminder"])
+def add_timer(message):
+    try:
+        chat_id=message.chat.id
+        hours=int(message.text.split()[1])
+        bot.send_message(chat_id,f'Напоминание каждые {hours} часов установлено.')
+
+        t=threading.Thread(target=reminder,args=(chat_id,hours))
+        t.start()
+    except:
+        bot.send_message(message.chat.id,'Напиши в формате:/setreminder (интервал напоминаний)')
+
+@bot.message_handler(commands=["drunk"])
+def drunk(message):
+    try:
+        water=int(message.text.split()[1])
+        chat_id=message.chat.id
+        if chat_id not in water_data:
+            water_data[chat_id]=0
+        water_data[chat_id]+=water
+        if water_data[chat_id]<=2000:
+            bot.send_message(chat_id,f"Выпито {water_data[chat_id]}мл из {water_goal}мл. Еще осталось {water_goal-water_data[chat_id]}мл до дневной нормы.")
+        else:
+            bot.send_message(chat_id,"Дневная норма достигнута!")
+    except:
+        bot.send_message(message.chat.id,'Напиши в виде:/drunk (количество выпитой воды в мл)')
+
+def reset_water_daily():
+    while True:
+        now=datetime.now()
+
+        if now.hour==0 and now.minute==0:
+            for chat_id in water_data:
+                water_data[chat_id]=0
+                bot.send_message(chat_id,'Новый день начался! Счетчик обновлен.')
+            time.sleep(61)
+        
+        
+@bot.message_handler(commands=["status"])
+def status(message):
+        chat_id=message.chat.id
+        if chat_id not in water_data:
+            water_data[chat_id]=0
+        if water_data[chat_id]<=2000:
+            bot.send_message(chat_id,f"Выпито {water_data[chat_id]}мл из {water_goal}мл. Еще осталось {water_goal-water_data[chat_id]}мл до дневной нормы.")
+        else:
+            bot.send_message(chat_id,"Дневная норма достигнута!")
+threading.Thread(target=reset_water_daily).start()
+
+@bot.message_handler(func=lambda message: True)
+def echo_all(message):
+    bot.reply_to(message, "UNKNOWN COMMAND")
+
+bot.polling()
