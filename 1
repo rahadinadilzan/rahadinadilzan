@@ -1,1 +1,126 @@
+from random import*
+from time import*
 
+users={
+    'username':'password'
+}
+score=0
+class Cards:
+    def __init__(self,questions,answers):
+        self.questions=questions
+        self.answers=answers
+
+    def start(self):
+        global score
+        score=0
+        start_time=time()
+        print('\nИгра началась!\n')
+        for i in range(len(self.questions)):
+            print(self.questions[i])
+            user_answer=input('Ваш ответ:')
+            if user_answer.lower()==self.answers[i].lower():
+                score+=15
+                print('Верно +15 очков\n')
+            else:
+                print(f'Неверно правильный ответ:{self.answers[i]}\n')
+        print('Игра окончена!')
+        print('Ваш счет:',score)
+        print('Время',int(time()-start_time),'секунд\n')
+
+Stolicy=Cards(['Какая столица у Казахстана?','Какая столица у Китая?','Какая столица у Америки?'],['Астана','Пекин','Вашингтон'])
+Math=Cards(['20+24','1534-325','14*9'],['44','1209','126'])
+Continents=Cards(['Самый большой континент по площади?','Самый жаркий континент?','Самый маленький континент?'],['Еуразия','Африка','Аустралия'])
+Birlyk=Cards(['Сколько килограмм в одном центнере?','Сколько сантиментров в километре?','Сколько граммов в одном килограмме?'],['100','100000','1000'])
+def register():
+    x=input('Введите ваш никнейм(Никнейм должен содержать 5 и более символов):')
+    length=len(x)
+    if length<5:
+        register()
+    elif x in users:
+        print('Этот логин уже занят.')
+        register()
+    else:
+        y=input('Введите ваш пароль:')
+        newuser={x:y}
+        users.update(newuser)
+        
+        
+
+
+def login():
+    x=input('Введите ваш никнейм:')
+    if x in users:
+        y=input('Введите ваш пароль:')
+        if users(x)==y:
+            print('Вы успешно вошли!')
+
+
+def account():
+    x=input()
+    if x=='register':
+        register()
+    elif x=='login':
+        login()
+    elif x=='0':
+        print('ok')
+    else:
+        print('Это не команда')
+        account()
+
+def deystviye():
+    x=int(input('Чтобы вы хотели сделать?\nЕсли вы хотите начать игру нажмите 1\n''Если вы хотите добавить свою карту в список карт введите 2\n''А если вы хотите выйти из игры ввдеите 0\n'))
+    if x==1:
+        start_game()
+    elif x==2:
+        add_card()
+    elif x==0:
+        stop()
+    else:
+        print('Это не команда')
+        deystviye()
+
+def stop():
+    print('Спасибо за игру!')
+
+cards=[Stolicy,Math,Continents,Birlyk]
+
+def start_game():
+    card=choice(cards)
+    choice(cards).start()
+    deystviye()
+        
+           
+
+
+def add_card():
+    name = input(
+        'Каким названием вы хотите назвать свою карточку?\n'
+        'Если вы по случайности зашли сюда — введите 0: '
+    )
+
+    if name == '0':
+        deystviye()
+        return
+
+    print('Введите 3 вопроса и 3 ответа.')
+
+    questions = []
+    answers = []
+
+    for i in range(3):
+        q = input(f'Вопрос {i+1}: ')
+        a = input(f'Ответ {i+1}: ')
+        questions.append(q)
+        answers.append(a)
+
+    card = Cards(questions, answers)
+    cards.append(card)
+
+    print(f'Карта "{name}" успешно добавлена!\n')
+    deystviye()
+
+
+
+print('Привествую вас в нашей в игре, вам нужно зарегистрироваться register, если вы когда нибудь регистрировались введите login')
+account()
+deystviye()
