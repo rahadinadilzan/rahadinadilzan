@@ -1,16 +1,18 @@
-## Hi there 👋
+# Привет! Я Python-разработчик 👋
 
-<!--
-**rahadinadilzan/rahadinadilzan** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+Добро пожаловать в мой профиль на GitHub! Я занимаюсь программированием на Python и созданием различных проектов — от интерактивных игр до Telegram-ботов и веб-приложений.
 
-Here are some ideas to get you started:
+### 📚 Обо мне и моем обучении
+- На протяжении **целого года** я системно изучал разработку на Python.
+- Успешно окончил профильный курс по Python от **CapEducation** (пройдено 48 часов лекций и практических занятий).
+- Постоянно развиваюсь, пишу чистый код и учусь решать сложные логические задачи.
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+### 🛠 Мой технологический стек
+- **Язык программирования:** Python
+- **Веб-разработка:** Django
+- **Разработка ботов:** Telebot (PyTelegramBotAPI)
+- **Игровая индустрия:** Pygame
+- **Стандартные библиотеки:** Random, Time, Math и др.
+
+### 📬 Как со мной связаться
+- **Email:** rahadinadilzan@gmail.com
